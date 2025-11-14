@@ -165,7 +165,7 @@ export default function CreateURL() {
                 ? "Creating..."
                 : "Shorten Link"}
             </Button>
-          </form>
+          </form> 
         </CardContent>
       </Card>
     </div>

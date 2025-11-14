@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
@@ -16,11 +15,14 @@ import AdminRoute from "./components/common/AdminRoute.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
 import { Toaster } from "sonner";
 import NotFound from "./pages/NotFound.jsx";
+import Header from "./components/layout/Header.jsx";
+// import Navbar from "./components/layout/Navbar.jsx";
 
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-neutral-950 text-white">
-      <Navbar />
+      <Header />
+      {/* <Navbar/> */}
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
