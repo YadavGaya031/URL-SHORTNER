@@ -2,6 +2,7 @@ import { createUser, findUserByEmail, findUserByEmailByPassword } from "../dao/u
 import { ConflictError } from "../utils/errorHandler.js"
 import {signToken} from "../utils/helper.js"
 import { sendEmail } from "../utils/sendEmail.js"
+import User from "../models/user.model.js"
 
 export const registerUser = async (name, email, password) => {
     const user = await findUserByEmail(email)
@@ -23,7 +24,7 @@ export const registerUser = async (name, email, password) => {
 export const loginUser = async (email, password) => {
     const user = await findUserByEmailByPassword(email)
     if(!user) throw new Error("Invalid email or password")
-    const isPasswordValid = await user.comparePassword(password)
+    const isPasswordValid = await User.comparePassword(password)
     if(!isPasswordValid) throw new Error("Invalid email or password")
     const token = signToken({id: user._id, role: user.role})
     return {token,user}
