@@ -4,24 +4,37 @@ import crypto from "crypto";
 import { razorpay } from "../config/razorpay.js";
 
 export const verifyPayment = async (req, res) => {
+  try{
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, planId } = req.body;
+    // console.log("VERIFY BODY : ", req.body);
+  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !planId) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
+    }
+    
+  const body = razorpay_order_id + "|" + razorpay_payment_id;
 
-  const hash = crypto
+  const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-    .update(razorpay_order_id + "|" + razorpay_payment_id)
+    .update(body)
     .digest("hex");
 
-  if (hash !== razorpay_signature) {
-    return res.status(400).json({ success: false, message: "Payment verification failed" });
+    // console.log("expectedSignature:", expectedSignature);
+    // console.log("receivedSignature:", razorpay_signature);
+    
+  if (expectedSignature !== razorpay_signature) {
+    return res.status(400).json({ success: false, message: "Signature mismatch" });
   }
 
-  const plans = {
+  const plan = {
     pro: { credits: 100, planName: "Pro" },
     business: { credits: 1000, planName: "Business" },
   };
 
-  req.user.plan = plans[planId].planName;
-  req.user.credits = plans[planId].credits;
+  req.user.plan = plan[planId].planName;
+  req.user.credits = plan[planId].credits;
   await req.user.save();
 
   // ✅ Send Email
@@ -29,11 +42,14 @@ export const verifyPayment = async (req, res) => {
     req.user.email,
     "🎉 Payment Successful - Linkly Subscription Activated",
     `<h2>Hey ${req.user.name}!</h2>
-     <p>Your <b>${plans[planId].planName}</b> is now active.</p>
-     <p>You now have <b>${plans[planId].credits} URL credits</b>.</p>`
+     <p>Your <b>${plan[planId].planName}</b> is now active.</p>
+     <p>You now have <b>${plan[planId].credits} URL credits</b>.</p>`
   );
 
   res.json({ success: true, message: "Payment verified & subscription activated!" });
+  }catch(err){
+    console.log("verify-payment error: ", err);
+  }
 };
 
 

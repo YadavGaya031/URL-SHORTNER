@@ -53,17 +53,25 @@ export default function Pricing() {
 
   const handlePayment = async (plan) => {
     try {
-      const res = await axiosClient.post("/api/payment/create-order", { plan }, { withCredentials: true });
-
+      const planId = plan.planKey;
+      const res = await axiosClient.post("/api/payment/create-order", { planId }, { withCredentials: true });
+      const order = res.data.order;
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: res.data.amount,
-        currency: "INR",
+        amount: order.amount,
+        currency: order.currency,
         name: "Linkly",
         description: `${plan.name} Plan Subscription`,
-        order_id: res.data.orderId,
+        order_id: order.id,
         handler: async (response) => {
-          await axiosClient.post("/api/payment/verify", response, { withCredentials: true });
+            console.log("RAZORPAY RESPONSE =>", response);
+          await axiosClient.post("/api/payment/verify-payment",
+          {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            planId: plan.planKey
+          } , { withCredentials: true });
           toast.success("Payment successful! Plan upgraded.");
           setTimeout(() => window.location.reload(), 1000);
         },
