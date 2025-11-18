@@ -6,11 +6,11 @@ const socialLinks = [
     icon: <Github className="w-8 h-8 text-cyan-900" />,
   },
   {
-    href: "https://linkedin.com/in/nitish-kumar-748580296/", 
+    href: "#", 
     icon: <Linkedin className="w-8 h-8 text-cyan-900" />,
   },
   {
-    href: "mailto:kumarnitishbxr07@gmail.com",
+    href: "mailto:singhgaya031@gmail.com",
     icon: <Mail className="w-8 h-8 text-cyan-800" />,
   },
 ];
