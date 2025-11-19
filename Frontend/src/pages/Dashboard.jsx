@@ -23,7 +23,7 @@ export default function Dashboard() {
   const statRef = useRef(null);
   const tableRef = useRef(null);
 
-  const appUrl = import.meta.env.VITE_APP_URL || "http://localhost:3000/";
+  const appUrl = "https://linkly-td22.onrender.com";
 
   const fetchMe = async () => {
     try {
