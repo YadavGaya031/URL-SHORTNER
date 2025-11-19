@@ -1,4 +1,4 @@
-import { sendEmail } from "../utils/sendEmail.js";
+// import { sendEmail } from "../utils/sendEmail.js";
 import User from "../models/user.model.js";
 import crypto from "crypto";
 import { razorpay } from "../config/razorpay.js";
@@ -38,13 +38,13 @@ export const verifyPayment = async (req, res) => {
   await req.user.save();
 
   // ✅ Send Email
-  sendEmail(
-    req.user.email,
-    "🎉 Payment Successful - Linkly Subscription Activated",
-    `<h2>Hey ${req.user.name}!</h2>
-     <p>Your <b>${plan[planId].planName}</b> is now active.</p>
-     <p>You now have <b>${plan[planId].credits} URL credits</b>.</p>`
-  );
+  // sendEmail(
+  //   req.user.email,
+  //   "🎉 Payment Successful - Linkly Subscription Activated",
+  //   `<h2>Hey ${req.user.name}!</h2>
+  //    <p>Your <b>${plan[planId].planName}</b> is now active.</p>
+  //    <p>You now have <b>${plan[planId].credits} URL credits</b>.</p>`
+  // );
 
   res.json({ success: true, message: "Payment verified & subscription activated!" });
   }catch(err){
