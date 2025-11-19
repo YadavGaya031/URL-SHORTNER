@@ -5,6 +5,14 @@ const axiosClient = axios.create({
   withCredentials: true,           
 });
 
+axiosClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token"); // tum login ke baad token store karte ho
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
