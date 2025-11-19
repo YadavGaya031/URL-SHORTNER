@@ -11,7 +11,7 @@ export const getQRCode = async (req, res) => {
                 message: "Short URL not found"
             });
         }
-        const fullShortUrl = `${process.env.APP_URL}/${slug}`;
+        const fullShortUrl = `https://linkly-td22.onrender.com/${slug}`;
         const qrCode = await generateQRCode(fullShortUrl);
 
         if(!qrCode){
