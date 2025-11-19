@@ -39,6 +39,11 @@ app.use("/api", qrRoutes);
 app.use("/api/payment", paymentRoutes);
 app.get("/:id",redirectFromShortUrl)
 
+app.get("/", () => {
+    res.send("hello Duniya !!!");
+});
+
+
 app.use(errorHandler)
 const port = process.env.PORT || 3000
 app.listen(port, async()=>{
