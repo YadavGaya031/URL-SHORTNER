@@ -19,7 +19,7 @@ dotenv.config("./.env")
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: 'https://url-shortner-pearl-chi.vercel.app/', 
     credentials: true 
 }));
 
