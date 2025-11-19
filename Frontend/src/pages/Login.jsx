@@ -30,6 +30,7 @@ export default function Login() {
     setLoading(true);
     try {
       const res = await axiosClient.post("/api/auth/login", form, { withCredentials: true });
+      localStorage.setItem("token", res.data.token);
       setUser(res.data.user);
       navigate("/dashboard");
     } catch (err) {
