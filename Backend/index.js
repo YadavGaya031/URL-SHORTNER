@@ -39,7 +39,7 @@ app.use("/api", qrRoutes);
 app.use("/api/payment", paymentRoutes);
 app.get("/:id",redirectFromShortUrl)
 
-app.get("/", () => {
+app.get("/", (req, res) => {
     res.send("hello Duniya !!!");
 });
 
